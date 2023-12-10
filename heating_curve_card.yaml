@@ -1,9 +1,9 @@
 type: custom:config-template-card
 entities:
-  - var.heat_pump_heat_curve_min_out_temp
-  - var.heat_pump_heat_curve_min_water_temp
-  - var.heat_pump_heat_curve_max_out_temp
-  - var.heat_pump_heat_curve_max_water_temp
+  - var.heat_pump_heating_curve_min_out_temp
+  - var.heat_pump_heating_curve_min_water_temp
+  - var.heat_pump_heating_curve_max_out_temp
+  - var.heat_pump_heating_curve_max_water_temp
 card:
   type: picture-elements
   image: /local/heating_curve/heating_curve-grid.png
@@ -16,10 +16,10 @@ card:
       {% set temp_diff_yaxis = 60 %}
       {% set temp_diff_xaxis = 60 %}
       {% set negative_temp_offset_xaxis = 20  %}
-      {% set top1 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heat_curve_min_water_temp') | float) %}
-      {% set left1 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heat_curve_min_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
-      {% set top2 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heat_curve_max_water_temp') | float) %}
-      {% set left2 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heat_curve_max_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
+      {% set top1 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heating_curve_min_water_temp') | float) %}
+      {% set left1 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heating_curve_min_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
+      {% set top2 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heating_curve_max_water_temp') | float) %}
+      {% set left2 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heating_curve_max_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
       {% set angle = tan((top1 - top2) | abs / ((left2 - left1) * 157)) * 180 / pi %}
       {% set scale = (left2 - left1) / delta_width / cos(angle*(pi/180)) * 0.94 %}
       --heating-curve-max-set-temp-position: translate({{left1 | string + '%'}},{{top1 | string + '%'}}) rotate({{angle | string + 'deg'}}) scale({{ scale }});
