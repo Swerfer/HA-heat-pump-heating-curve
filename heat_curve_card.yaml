@@ -1,0 +1,44 @@
+type: custom:config-template-card
+entities:
+  - var.heat_pump_heat_curve_min_out_temp
+  - var.heat_pump_heat_curve_min_water_temp
+  - var.heat_pump_heat_curve_max_out_temp
+  - var.heat_pump_heat_curve_max_water_temp
+card:
+  type: picture-elements
+  image: /local/heating_curve/heating_curve-grid.png
+  style: |
+    ha-card {
+      {% set bottom_line = 590 %}
+      {% set left_line = 4 %}
+      {% set delta_height = 6845 %}
+      {% set delta_width = 93 %}
+      {% set temp_diff_yaxis = 60 %}
+      {% set temp_diff_xaxis = 60 %}
+      {% set negative_temp_offset_xaxis = 20  %}
+      {% set top1 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heat_curve_min_water_temp') | float) %}
+      {% set left1 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heat_curve_min_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
+      {% set top2 = -(bottom_line + delta_height/temp_diff_yaxis * states('var.heat_pump_heat_curve_max_water_temp') | float) %}
+      {% set left2 = (left_line + (delta_width/temp_diff_xaxis * states('var.heat_pump_heat_curve_max_out_temp') | float) + delta_width/temp_diff_xaxis * negative_temp_offset_xaxis) %}
+      {% set angle = tan((top1 - top2) | abs / ((left2 - left1) * 157)) * 180 / pi %}
+      {% set scale = (left2 - left1) / delta_width / cos(angle*(pi/180)) * 0.94 %}
+      --heating-curve-max-set-temp-position: translate({{left1 | string + '%'}},{{top1 | string + '%'}}) rotate({{angle | string + 'deg'}}) scale({{ scale }});
+      --heating-curve-left-position: translate({{left1 | string + '%'}},{{(top1 | float + 50) | string + '%'}}) rotate(180deg) scale(0.4);
+      --heating-curve-right-position: translate({{left2 | string + '%'}},{{(top2 | float + 10) | string + '%'}}) scale(0.4);
+    }
+  elements:
+    - type: image
+      image: /local/heating_curve/heating_curve_line.png
+      style:
+        transform: var(--heating-curve-max-set-temp-position)
+        transform-origin: top left
+    - type: image
+      image: /local/heating_curve/heating_curve_line.png
+      style:
+        transform: var(--heating-curve-left-position)
+        transform-origin: top left
+    - type: image
+      image: /local/heating_curve/heating_curve_line.png
+      style:
+        transform: var(--heating-curve-right-position)
+        transform-origin: top left
