@@ -8,9 +8,17 @@ Install [Lovelace card mod](https://github.com/thomasloven/lovelace-card-mod) fr
 
 ## How to install
 
-•	Copy the YAML from heating_curve_card.yaml and past it in a new manual card.
+•	Create in your www folder a folder named 'heating_curve'.
 
-•	Edit the entities in the yaml to your entities (at 2 places!). min_out and min_water are the temperatures at the left of the grid (-10/45°C), max_out and max_water at the right (20/30°C).
+•	Copy 'heating_curve_line.png' and 'heating_curve-grid.png' to the new created folder.
+
+•	Copy the YAML from 'heating_curve_card.yaml' and past it in a new manual card.
+
+•	Edit the entities in the yaml to your entities (at 2 places!). 
+
+• min_out and min_water are the temperature entities at the left of the grid (-10/45°C).
+
+• max_out and max_water are the temperature entities at the right of the grid (20/30°C).
 
 •	Save the card and you’re done.
 
